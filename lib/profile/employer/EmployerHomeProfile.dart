@@ -517,9 +517,10 @@ Widget _buildAchievementsSection(Employer employer) {
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 10),
+                  // ignore: unnecessary_null_comparison
                   achievement.uploadImage != null
                       ? Image.network(
-                          achievement.uploadImage!,
+                          achievement.uploadImage,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               Icon(Icons.error, color: Colors.red),
