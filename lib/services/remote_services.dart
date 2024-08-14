@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/employer_model.dart';
+import '../models/post_model.dart';
 
 class RemoteServices {
   static var client = http.Client();
@@ -73,6 +74,28 @@ class RemoteServices {
       }
     } catch (error) {
       throw Exception('Profile update error: $error');
+    }
+  }
+
+  static Future<List<Post>> fetchPosts(String employerID) async {
+    final url = Uri.parse(
+        'http://13.201.62.223:8000/jobPosting/getAllJobs/$employerID');
+
+    try {
+      final response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        print('The employers posts list successfully fetched.');
+        return data.map((post) => Post.fromJson(post)).toList();
+      } else {
+        print(
+            'Failed to fetch employer post list. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to load posts');
+      }
+    } catch (error) {
+      throw error;
     }
   }
 }

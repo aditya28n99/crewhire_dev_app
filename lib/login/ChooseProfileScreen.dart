@@ -1,3 +1,4 @@
+import 'package:crewhire_dev_app/profile/employer/dashboard/buyPostDashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../profile/employer/EmployerHomeProfile.dart';
@@ -30,9 +31,9 @@ class _ChooseProfileScreenState extends State<ChooseProfileScreen> {
       ));
     } else if (selectedProfileIndex == 1) {
       // Navigate to the JobSeekerPage
-      // Navigator.of(context).push(MaterialPageRoute(
-      //   builder: (context) => JobseekerInfo(),
-      // ));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => BuyPostDashboard(),
+      ));
     }
   }
 
