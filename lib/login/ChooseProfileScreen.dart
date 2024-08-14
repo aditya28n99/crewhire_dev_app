@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../profile/employer/employer_info.dart';
+import '../profile/employer/EmployerHomeProfile.dart';
 // import '../profile/JobseekerProfile/jobseeker_info.dart';
 
 class ChooseProfileScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _ChooseProfileScreenState extends State<ChooseProfileScreen> {
     if (selectedProfileIndex == 0) {
       // Navigate to the EmployerPage
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => EmployerInfo(),
+        builder: (context) => EmployerHomeProfile(),
       ));
     } else if (selectedProfileIndex == 1) {
       // Navigate to the JobSeekerPage

@@ -20,7 +20,6 @@ class _EmployerInfoState extends State<EmployerInfo> {
   String city = '';
   String webLink = '';
   String description = '';
-  String gstnNumber = '';
 
   bool isIndividual =
       false; // Flag to track if the employer is individual or company
@@ -310,13 +309,6 @@ class _EmployerInfoState extends State<EmployerInfo> {
                             'Enter a brief description about your company',
                         onSave: (value) {
                           description = value ?? '';
-                        },
-                      ),
-                      buildTextFormField(
-                        label: 'GSTN Number (Optional)',
-                        hintText: 'Enter your GSTN number (if applicable)',
-                        onSave: (value) {
-                          gstnNumber = value ?? '';
                         },
                       ),
                       SizedBox(height: 16.0),
