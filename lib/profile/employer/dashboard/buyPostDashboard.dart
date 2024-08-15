@@ -1,9 +1,11 @@
 import 'package:crewhire_dev_app/profile/employer/EmployerHomeProfile.dart';
+import 'package:crewhire_dev_app/profile/employer/posts/jobPostForm.dart';
 import 'package:crewhire_dev_app/profile/employer/posts/jobPostListPage.dart';
 import 'package:flutter/material.dart';
 import '../../../services/remote_services.dart';
 import '../../../models/employer_model.dart';
 import '../../../models/post_model.dart';
+import '../posts/jobPostForm.dart';
 import 'package:intl/intl.dart'; // For date formatting
 
 class BuyPostDashboard extends StatefulWidget {
@@ -208,12 +210,13 @@ class _BuyPostDashboardState extends State<BuyPostDashboard> {
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
                               onPressed: () {
-                                //           Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => JobPostHighlightFormPage()),
-                                //   );
-                                // },
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => JobPostForm(
+                                          empId:
+                                              '068979ad-8d63-41a0-b95c-3d9fcfd1a432')),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -365,6 +368,7 @@ class _RecentPostsWidgetState extends State<RecentPostsWidget> {
               } else {
                 return Column(
                   children: snapshot.data!
+                      .take(5) // Restrict to only 5 posts
                       .map((post) => PostCardWidget(
                             post: post,
                             employerId:

@@ -10,6 +10,14 @@ class Post {
   final String applyBefore;
   final String daysRemaining;
   final int numApplicants;
+  final List<String> benefits;
+  final String education;
+  final String jobRequirements;
+  final String experience;
+  final List<String> skills;
+  final String employementType;
+  final String workType;
+  final String position;
 
   Post({
     required this.jobId,
@@ -21,6 +29,14 @@ class Post {
     required this.applyBefore,
     required this.daysRemaining,
     required this.numApplicants,
+    required this.benefits,
+    required this.education,
+    required this.jobRequirements,
+    required this.experience,
+    required this.skills,
+    required this.employementType,
+    required this.workType,
+    required this.position,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -34,6 +50,14 @@ class Post {
       applyBefore: json['applyBefore'] ?? '',
       daysRemaining: calculateDaysRemaining(json['applyBefore'] ?? ''),
       numApplicants: json['numApplicants'] ?? 0,
+      benefits: List<String>.from(json['benefits'] ?? []),
+      education: json['education'] ?? '',
+      jobRequirements: json['jobRequirements'] ?? '',
+      experience: json['experience'] ?? '',
+      skills: List<String>.from(json['skills'] ?? []),
+      employementType: json['employementType'] ?? '',
+      workType: json['workType'] ?? '',
+      position: json['position'] ?? '',
     );
   }
 }

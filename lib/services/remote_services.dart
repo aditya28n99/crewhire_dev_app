@@ -98,4 +98,47 @@ class RemoteServices {
       throw error;
     }
   }
+
+  final String baseUrl = 'http://13.201.62.223:8000'; // Hardcoded baseUrl
+
+  Future<void> createJobPost(String employerID, Post post) async {
+    final String endpoint = '$baseUrl/jobPosting/createJobPost/$employerID';
+    final url = Uri.parse(endpoint);
+
+    try {
+      final response = await client.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json'
+        }, // Specify JSON content type
+        body: json.encode({
+          // 'jobId': post.jobId,
+          // 'logoUrl': post.logoUrl,
+          'jobTitle': post.jobTitle,
+          'jobDescription': post.jobDescription,
+          'jobLocation': post.jobLocation,
+          'salary': post.salary,
+          'applyBefore': post.applyBefore,
+          'benefits': post.benefits,
+          'education': post.education,
+          'jobRequirements': post.jobRequirements,
+          'experience': post.experience,
+          'skills': post.skills,
+          'employementType': post.employementType,
+          'workType': post.workType,
+          'position': post.position,
+        }),
+      );
+      if (response.statusCode == 200) {
+        print('Job post created successfully');
+      } else {
+        print('Failed to create job post. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to create job post');
+      }
+    } catch (e) {
+      print('Error creating job post: $e');
+      throw e;
+    }
+  }
 }
