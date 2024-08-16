@@ -1,4 +1,5 @@
 import 'package:crewhire_dev_app/profile/employer/posts/jobPostDetail.dart';
+import 'package:crewhire_dev_app/profile/employer/posts/jobPostEdit.dart';
 import 'package:flutter/material.dart';
 import '../../../models/post_model.dart';
 import '../../../services/remote_services.dart';
@@ -191,10 +192,12 @@ class PostCardWidget extends StatelessWidget {
                                   empId: employerId, jobId: post.jobId)),
                         );
                       } else if (value == 'edit') {
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   '/update-job-post/$employerId/${post.jobId}',
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => JobPostEdit(
+                                  empId: employerId, jobId: post.jobId)),
+                        );
                       }
                     },
                     itemBuilder: (context) => [

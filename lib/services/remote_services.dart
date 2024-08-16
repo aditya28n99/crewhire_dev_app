@@ -161,4 +161,24 @@ class RemoteServices {
       throw error;
     }
   }
+
+  // New method for updating a job post
+  static Future<void> updateJobPost(
+      String employerId, String jobId, Map<String, dynamic> updatedData) async {
+    final url =
+        Uri.parse('$baseUrl/jobPosting/updateJobPost/$employerId/$jobId');
+    try {
+      final response = await client.put(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(updatedData),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update job post');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }
