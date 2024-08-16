@@ -24,6 +24,8 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
 
   Widget _buildProfileImage(Employer employer) {
     return Column(
+      mainAxisSize: MainAxisSize
+          .min, // Make sure the column does not take more space than needed
       children: [
         Container(
           width: 95,
@@ -40,7 +42,6 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
                 width: 95,
                 height: 97.64,
                 fit: BoxFit.cover,
-                // Handle image loading and errors
                 errorBuilder: (context, error, stackTrace) =>
                     Icon(Icons.error, color: Colors.red),
                 loadingBuilder: (context, child, loadingProgress) {
@@ -51,21 +52,21 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
             ),
           ),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: 8), // Increased space between image and text
         Container(
-          width: 250,
-          height: 22,
-          alignment: Alignment.center,
-          child: Text(
-            ' ${employer.companyName}',
-            style: GoogleFonts.dmSans(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.015,
-              color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Center(
+            // Center the text horizontally
+            child: Text(
+              employer.companyName,
+              style: GoogleFonts.dmSans(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87, // Updated color for better visibility
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
-            overflow: TextOverflow.ellipsis, // Handle overflow
-            maxLines: 1, // Limit text to 1 line
           ),
         ),
       ],
@@ -76,8 +77,7 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          // Use Expanded to avoid overflow
+        Flexible(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -89,18 +89,18 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
                     fontSize: 16,
                     color: Colors.white,
                   ),
-                  overflow: TextOverflow.ellipsis, // Handle overflow
-                  maxLines: 2, // Limit text to 2 lines
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '${employer.officeLocationAddress.city} ${employer.officeLocationAddress.state} ${employer.officeLocationAddress.country}',
+                  '${employer.officeLocationAddress.city}, ${employer.officeLocationAddress.state}, ${employer.officeLocationAddress.country}',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,
                   ),
-                  overflow: TextOverflow.ellipsis, // Handle overflow
-                  maxLines: 2, // Limit text to 2 lines
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
                 SizedBox(height: 10),
               ],
@@ -121,50 +121,56 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
                 ),
                 child: Text("Visit Website"),
               ),
+              SizedBox(height: 10),
               Wrap(
-                spacing: 8.0, // Space between icons horizontally
-                runSpacing: 8.0, // Space between icons vertically
+                spacing: 8.0,
+                runSpacing: 8.0,
                 children: [
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.instagram),
-                    color: Colors.red,
-                    iconSize: 20.0,
-                    onPressed: () {
-                      launch('${employer.socialMediaHandles.instagram}');
-                    },
-                  ),
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.youtube),
-                    color: Colors.red,
-                    iconSize: 20.0,
-                    onPressed: () {
-                      launch('${employer.socialMediaHandles.youtube}');
-                    },
-                  ),
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.facebook),
-                    color: Colors.blue,
-                    iconSize: 20.0,
-                    onPressed: () {
-                      launch('${employer.socialMediaHandles.facebook}');
-                    },
-                  ),
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.twitter),
-                    color: Colors.lightBlue,
-                    iconSize: 20.0,
-                    onPressed: () {
-                      launch('${employer.socialMediaHandles.twitter}');
-                    },
-                  ),
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.linkedin),
-                    color: Colors.blue,
-                    iconSize: 20.0,
-                    onPressed: () {
-                      launch('${employer.socialMediaHandles.linkedIn}');
-                    },
-                  ),
+                  if (employer.socialMediaHandles.instagram.isNotEmpty)
+                    IconButton(
+                      icon: FaIcon(FontAwesomeIcons.instagram),
+                      color: Colors.red,
+                      iconSize: 20.0,
+                      onPressed: () {
+                        launch('${employer.socialMediaHandles.instagram}');
+                      },
+                    ),
+                  if (employer.socialMediaHandles.youtube.isNotEmpty)
+                    IconButton(
+                      icon: FaIcon(FontAwesomeIcons.youtube),
+                      color: Colors.red,
+                      iconSize: 20.0,
+                      onPressed: () {
+                        launch('${employer.socialMediaHandles.youtube}');
+                      },
+                    ),
+                  if (employer.socialMediaHandles.facebook.isNotEmpty)
+                    IconButton(
+                      icon: FaIcon(FontAwesomeIcons.facebook),
+                      color: Colors.blue,
+                      iconSize: 20.0,
+                      onPressed: () {
+                        launch('${employer.socialMediaHandles.facebook}');
+                      },
+                    ),
+                  if (employer.socialMediaHandles.twitter.isNotEmpty)
+                    IconButton(
+                      icon: FaIcon(FontAwesomeIcons.twitter),
+                      color: Colors.lightBlue,
+                      iconSize: 20.0,
+                      onPressed: () {
+                        launch('${employer.socialMediaHandles.twitter}');
+                      },
+                    ),
+                  if (employer.socialMediaHandles.linkedIn.isNotEmpty)
+                    IconButton(
+                      icon: FaIcon(FontAwesomeIcons.linkedin),
+                      color: Colors.blue,
+                      iconSize: 20.0,
+                      onPressed: () {
+                        launch('${employer.socialMediaHandles.linkedIn}');
+                      },
+                    ),
                 ],
               ),
             ],
@@ -206,12 +212,7 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
                       ),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(height: 10),
-                            ],
-                          ),
+                          SizedBox(height: 10),
                           _buildProfileImage(employer),
                           _buildLocationInfo(employer),
                         ],
@@ -219,12 +220,11 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
                     ),
                     _buildAboutSection(employer),
                     _buildContactSection(employer),
-                    _buildLocationSection(employer), // Added location section
-                    _buildIndustrySection(employer), // Added industry section
-                    _buildSinceSection(employer), // Added since section
-                    _buildAchievementsSection(
-                        employer), // Added achievements section
-                    _buildGallerySection(employer)
+                    _buildLocationSection(employer),
+                    _buildIndustrySection(employer),
+                    _buildSinceSection(employer),
+                    _buildAchievementsSection(employer),
+                    _buildGallerySection(employer),
                   ],
                 ),
               );
@@ -235,360 +235,345 @@ class _EmployerHomeProfileState extends State<EmployerHomeProfile> {
       ),
     );
   }
-}
 
-// Reusable Widgets for different sections
+  // Reusable Widgets for different sections
 
-Widget _buildAboutSection(Employer employer) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildAboutSection(Employer employer) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          Text(
+            "About Company",
+            style: GoogleFonts.dmSans(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            width: double.infinity, // Full width
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.shade300, blurRadius: 5)
+              ],
+            ),
             child: Text(
-              "About Company",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              '${employer.aboutCompany}',
+              style: GoogleFonts.dmSans(
+                fontSize: 16,
+                color: Colors.black54,
               ),
             ),
           ),
         ],
       ),
-      Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text('${employer.aboutCompany}'),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
+    );
+  }
 
-Widget _buildContactSection(Employer employer) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildContactSection(Employer employer) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              "Contact",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            "Contact",
+            style: GoogleFonts.dmSans(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            width: double.infinity, // Full width
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.shade300, blurRadius: 5)
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Mobile: ${employer.contact.mobile}',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Email: ${employer.contact.email}',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  '${employer.contact.mobile}',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      SizedBox(height: 10),
-      Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  '${employer.contact.email}',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
+    );
+  }
 
-Widget _buildLocationSection(Employer employer) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildLocationSection(Employer employer) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              "Office Location",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            "Office Location",
+            style: GoogleFonts.dmSans(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            width: double.infinity, // Full width
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.shade300, blurRadius: 5)
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${employer.officeLocationAddress.address1}',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '${employer.officeLocationAddress.address2}',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  '${employer.officeLocationAddress.city}, ${employer.officeLocationAddress.state}, ${employer.officeLocationAddress.country}',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  '${employer.officeLocationAddress.address1} ${employer.officeLocationAddress.address2} ${employer.officeLocationAddress.city} ${employer.officeLocationAddress.state} ${employer.officeLocationAddress.country}',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
+    );
+  }
 
-Widget _buildIndustrySection(Employer employer) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildIndustrySection(Employer employer) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          Text(
+            "Industry",
+            style: GoogleFonts.dmSans(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            width: double.infinity, // Full width
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.shade300, blurRadius: 5)
+              ],
+            ),
             child: Text(
-              "Industry Type",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              '${employer.industryType}',
+              style: GoogleFonts.dmSans(
+                fontSize: 16,
+                color: Colors.black54,
               ),
             ),
           ),
         ],
       ),
-      Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  '${employer.industryType}',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
+    );
+  }
 
-Widget _buildSinceSection(Employer employer) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildSinceSection(Employer employer) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          Text(
+            "Established Since",
+            style: GoogleFonts.dmSans(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            width: double.infinity, // Ensure it takes full width
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.shade300, blurRadius: 5)
+              ],
+            ),
             child: Text(
-              "Since",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              '${employer.since}',
+              style: GoogleFonts.dmSans(
+                fontSize: 16,
+                color: Colors.black54,
               ),
             ),
           ),
         ],
       ),
-      Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  '${employer.since}',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
+    );
+  }
 
-Widget _buildAchievementsSection(Employer employer) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildAchievementsSection(Employer employer) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              "Awards and Achievements",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            "Awards & Achievements",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ],
-      ),
-      Column(
-        children: employer.awardsAndAchievemets.map((achievement) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.white,
-              ),
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.only(bottom: 10), // Add margin between items
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    achievement.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+          SizedBox(height: 8),
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (var award in employer.awardsAndAchievemets)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      children: [
+                        if (award.uploadImage.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Image.network(
+                              award.uploadImage,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                award.name,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'Issued by: ${award.issuerOrOrganization}',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'Category: ${award.category}',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Text(
-                    achievement.issuerOrOrganization,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    achievement.category,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 10),
-                  // ignore: unnecessary_null_comparison
-                  achievement.uploadImage != null
-                      ? Image.network(
-                          achievement.uploadImage,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Icon(Icons.error, color: Colors.red),
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(child: CircularProgressIndicator());
-                          },
-                        )
-                      : Container(),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    ],
-  );
-}
-
-Widget _buildGallerySection(Employer employer) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              "Gallery",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              ],
             ),
           ),
         ],
       ),
-      employer.companyPhotos.isNotEmpty
-          ? Column(
-              children: employer.companyPhotos.map((photo) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.all(10),
-                    margin:
-                        EdgeInsets.only(bottom: 10), // Add margin between items
-                    child: Image.network(
-                      photo,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.error, color: Colors.red),
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
+    );
+  }
+
+  Widget _buildGallerySection(Employer employer) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Company Photos",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 8),
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+              ),
+              itemCount: employer.companyPhotos.length,
+              itemBuilder: (context, index) {
+                return Image.network(
+                  employer.companyPhotos[index],
+                  fit: BoxFit.cover,
                 );
-              }).toList(),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text("No photos available"),
+              },
             ),
-    ],
-  );
+          ),
+        ],
+      ),
+    );
+  }
 }
