@@ -3,12 +3,13 @@ import 'package:http/http.dart' as http;
 import '../models/employer_model.dart';
 import '../models/post_model.dart';
 
+final String baseUrl = 'http://13.201.62.223:8000'; // Hardcoded baseUrl
+
 class RemoteServices {
   static var client = http.Client();
 
   static Future<Employer> fetchEmployerProfile(String employerId) async {
-    final url =
-        Uri.parse('http://13.201.62.223:8000/employerProfile/get/$employerId');
+    final url = Uri.parse('$baseUrl/employerProfile/get/$employerId');
 
     try {
       var response = await client.get(url);
@@ -25,7 +26,7 @@ class RemoteServices {
   }
 
   static Future<void> createEmployerProfile(Employer employer) async {
-    final url = Uri.parse('http://13.201.62.223:8000/employerProfile/create');
+    final url = Uri.parse('$baseUrl/employerProfile/create');
 
     try {
       var response = await client.post(
@@ -46,8 +47,8 @@ class RemoteServices {
 
   static Future<void> updateEmployerProfile(
       String employerId, Employer employer) async {
-    final url = Uri.parse(
-        'http://13.201.62.223:8000/employerProfile/updateEmployerProfile/$employerId');
+    final url =
+        Uri.parse('$baseUrl/employerProfile/updateEmployerProfile/$employerId');
 
     try {
       var response = await client.put(
@@ -76,30 +77,6 @@ class RemoteServices {
       throw Exception('Profile update error: $error');
     }
   }
-
-  static Future<List<Post>> fetchPosts(String employerID) async {
-    final url = Uri.parse(
-        'http://13.201.62.223:8000/jobPosting/getAllJobs/$employerID');
-
-    try {
-      final response = await client.get(url);
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        print('The employers posts list successfully fetched.');
-        return data.map((post) => Post.fromJson(post)).toList();
-      } else {
-        print(
-            'Failed to fetch employer post list. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        throw Exception('Failed to load posts');
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  final String baseUrl = 'http://13.201.62.223:8000'; // Hardcoded baseUrl
 
   Future<void> createJobPost(String employerID, Post post) async {
     final String endpoint = '$baseUrl/jobPosting/createJobPost/$employerID';
@@ -139,6 +116,49 @@ class RemoteServices {
     } catch (e) {
       print('Error creating job post: $e');
       throw e;
+    }
+  }
+
+  static Future<List<Post>> fetchPosts(String employerID) async {
+    final url = Uri.parse('$baseUrl/jobPosting/getAllJobs/$employerID');
+
+    try {
+      final response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        print('The employers posts list successfully fetched.');
+        return data.map((post) => Post.fromJson(post)).toList();
+      } else {
+        print(
+            'Failed to fetch employer post list. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to load posts');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // New fetchJobPost method
+  static Future<Map<String, dynamic>> fetchJobPost(
+      String employerId, String jobId) async {
+    final url = Uri.parse('$baseUrl/jobPosting/getJob/$employerId/$jobId');
+
+    try {
+      final response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        print('Job post details successfully fetched.');
+        return json.decode(response.body);
+      } else {
+        print(
+            'Failed to fetch job post details. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to load job post');
+      }
+    } catch (error) {
+      throw error;
     }
   }
 }
