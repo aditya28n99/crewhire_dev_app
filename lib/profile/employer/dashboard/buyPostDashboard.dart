@@ -1,11 +1,11 @@
 import 'package:crewhire_dev_app/profile/employer/EmployerHomeProfile.dart';
+import 'package:crewhire_dev_app/profile/employer/posts/jobPostDetail.dart';
 import 'package:crewhire_dev_app/profile/employer/posts/jobPostForm.dart';
 import 'package:crewhire_dev_app/profile/employer/posts/jobPostListPage.dart';
 import 'package:flutter/material.dart';
 import '../../../services/remote_services.dart';
 import '../../../models/employer_model.dart';
 import '../../../models/post_model.dart';
-import '../posts/jobPostForm.dart';
 import 'package:intl/intl.dart'; // For date formatting
 
 class BuyPostDashboard extends StatefulWidget {
@@ -441,31 +441,35 @@ class PostCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == 'view') {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   '/job-post/$employerId/${post.jobId}',
-                      // );
-                    } else if (value == 'edit') {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   '/update-job-post/$employerId/${post.jobId}',
-                      // );
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 'view',
-                      child: Text('View'),
-                    ),
-                    PopupMenuItem(
-                      value: 'edit',
-                      child: Text('Edit'),
-                    ),
-                  ],
-                  icon: Icon(Icons.more_vert, color: Colors.grey[600]),
+                GestureDetector(
+                  child: PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == 'view') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => JobPostDetail(
+                                  empId: employerId, jobId: post.jobId)),
+                        );
+                      } else if (value == 'edit') {
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   '/update-job-post/$employerId/${post.jobId}',
+                        // );
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'view',
+                        child: Text('View'),
+                      ),
+                      PopupMenuItem(
+                        value: 'edit',
+                        child: Text('Edit'),
+                      ),
+                    ],
+                    icon: Icon(Icons.more_vert, color: Colors.grey[600]),
+                  ),
                 ),
               ],
             ),
